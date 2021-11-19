@@ -1,0 +1,31 @@
+#!/bin/sh 
+
+TARGETARCH=${DEB_HOST_ARCH}
+echo "run build-targets for ${TARGETARCH}"
+
+grep "^${TARGETARCH}[^a-z0-9]" debian/targets |
+while read arch subarch platform targets; do
+    builddir="debian/build/${platform}"
+    targets="${targets} uboot.elf"
+    subpackage="u-boot-${subarch}"
+
+    mkdir -p "${builddir}"
+
+    dh_auto_build -- O="${builddir}" ${platform}_defconfig    
+    sed -i -e 's,CONFIG_FIT_SIGNATURE=y,# CONFIG_FIT_SIGNATURE is not set,g' "${builddir}/.config" 
+    dh_auto_build -- O="${builddir}"
+
+    install "${builddir}/u-boot" "${builddir}/uboot.elf"
+    strip --remove-section=.comment --remove-section=.note "${builddir}/uboot.elf"
+
+    for target in ${targets}; do
+        chmod -x "${builddir}/${target}"
+        echo "${builddir}/${target} /usr/lib/u-boot/${platform}/" \
+            >> debian/build/targets.${subarch}
+        echo "${platform}" >> debian/build/platforms.${subarch}
+    done
+
+    cp "${builddir}/.config" "${builddir}/config.${platform}"
+    echo "${builddir}/config.${platform} /usr/share/doc/${subpackage}/configs/" \
+        >> debian/build/targets.${subarch};
+done

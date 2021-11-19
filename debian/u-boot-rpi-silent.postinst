@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+BOOT="/boot/firmware"
+
+case "$1" in
+  configure)
+    if ischroot; then
+      echo "chroot detected; skipping postinst"
+      exit 0
+    fi
+    if ! mountpoint -q "$BOOT"; then
+      echo "Error: missing $BOOT, did you forget to mount it?" >&2
+      exit 1
+    fi
+
+    for uboot_binary in /usr/lib/u-boot/*/u-boot.bin; do
+        dest_binary=uboot_$(basename $(dirname "$uboot_binary")).bin
+        cp "$uboot_binary" "$BOOT/$dest_binary"
+    done
+    ;;
+esac
+
+exit 0
+
+#DEBHELPER#

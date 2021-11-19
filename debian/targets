@@ -1,0 +1,4 @@
+# ARCH	subarch		platform	target
+# --------------------------------------------
+arm64	rpi-silent		rpi_3		u-boot.bin
+arm64	rpi-silent		rpi_4		u-boot.bin

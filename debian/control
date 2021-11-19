@@ -3,36 +3,22 @@ Section: admin
 Priority: optional
 Maintainer: Fictionlab <support@fictionlab.pl>
 Build-Depends:
-# arm-trusted-firmware (>= 2.2) [arm64],
-# bc,
-# bison,
-# debhelper-compat (= 12),
-# device-tree-compiler,
-# flex,
-# libfdt-dev:native [arm64],
-# libc6:arm64 [arm64] <cross !pkg.uboot.notools>,
-# libc6:armhf [armhf] <cross !pkg.uboot.notools>,
-# libc6:armel [armel] <cross !pkg.uboot.notools>,
-# libc6:riscv64 [riscv64] <cross !pkg.uboot.notools>,
-# opensbi (>= 0.9-1~),
-# libpython3-dev:native [linux-any],
-# libssl-dev,
-# python3:any [linux-any],
-# python3-distutils [linux-any],
-# python3-pkg-resources [linux-any],
-# swig [linux-any],
-# lzop [armhf],
- quilt,
+ bc,
+ bison,
+ debhelper-compat (= 12),
+ flex,
+ libssl-dev,
 Build-Depends-Indep:
  gcc-aarch64-linux-gnu [!arm64],
 Standards-Version: 4.5.1
 Homepage: https://www.denx.de/wiki/U-Boot/
-Vcs-Browser: https://salsa.debian.org/debian/u-boot
-Vcs-Git: https://salsa.debian.org/debian/u-boot.git
+Vcs-Browser: https://github.com/fictionlab-gbp/u-boot
+Vcs-Git: https://github.com/fictionlab-gbp/u-boot.git
 
 Package: u-boot-rpi-silent
 Architecture: arm64
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, flash-kernel
+Conflicts: u-boot-rpi
 Description: A boot loader for Raspberry PI systems
  Das U-Boot is a cross-platform bootloader for embedded systems,
  used as the default boot loader by several board vendors.  It is
