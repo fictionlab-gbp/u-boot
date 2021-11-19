@@ -1,0 +1,39 @@
+Author: Błażej Sowa <blazej@fictionlab.pl>
+Forwarded: not-needed
+Description: Enable RPi silent autoboot
+ Removes the boot delay and enables silent boot for RPi 3 and RPi 4 configs,
+ so U-boot will not send any messages on UART and will not react upon receiving
+ any messages.
+
+--- a/configs/rpi_3_defconfig
++++ b/configs/rpi_3_defconfig
+@@ -47,3 +47,8 @@
+ CONFIG_PHYS_TO_BUS=y
+ CONFIG_OF_LIBFDT_OVERLAY=y
+ CONFIG_SUPPORT_RAW_INITRD=y
++CONFIG_BOOTDELAY=-2
++CONFIG_SILENT_CONSOLE=y
++CONFIG_SYS_DEVICE_NULLDEV=y
++CONFIG_SILENT_CONSOLE_UPDATE_ON_SET=y
++CONFIG_SILENT_U_BOOT_ONLY=y
+--- a/configs/rpi_4_defconfig
++++ b/configs/rpi_4_defconfig
+@@ -55,3 +55,8 @@
+ CONFIG_PHYS_TO_BUS=y
+ CONFIG_OF_LIBFDT_OVERLAY=y
+ CONFIG_SUPPORT_RAW_INITRD=y
++CONFIG_BOOTDELAY=-2
++CONFIG_SILENT_CONSOLE=y
++CONFIG_SYS_DEVICE_NULLDEV=y
++CONFIG_SILENT_CONSOLE_UPDATE_ON_SET=y
++CONFIG_SILENT_U_BOOT_ONLY=y
+--- a/include/configs/rpi.h
++++ b/include/configs/rpi.h
+@@ -206,6 +206,7 @@
+ 
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"dhcpuboot=usb start; dhcp u-boot.uimg; bootm\0" \
++	"silent=1\0" \
+ 	ENV_DEVICE_SETTINGS \
+ 	ENV_DFU_SETTINGS \
+ 	ENV_MEM_LAYOUT_SETTINGS \

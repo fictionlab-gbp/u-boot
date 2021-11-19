@@ -3,3 +3,4 @@ rpi-board-dt.patch
 rpi-cm4-sdhci.patch
 rpi-8gb-pci.patch
 rpi-maxargs.patch
+rpi-silent.patch
